@@ -1,0 +1,9 @@
+{
+  "name": "Studio LH",
+  "short_name": "StudioLH",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b1222",
+  "theme_color": "#0f172a",
+  "icons": []
+}
