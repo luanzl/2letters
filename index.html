@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" id="viewport" name="viewport"/>
+<script>
+    function updateViewport() {
+      var vp = document.getElementById('viewport');
+      if (!vp) return;
+
+      var isStandalone =
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        window.navigator.standalone === true;
+
+      if (isStandalone) {
+        // App (PWA / atalho na tela inicial): zoom travado
+        vp.setAttribute(
+          'content',
+          'width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'
+        );
+      } else {
+        // Navegador: zoom liberado
+        vp.setAttribute(
+          'content',
+          'width=device-width,initial-scale=1'
+        );
+      }
+    }
+
+    updateViewport();
+
+    var mq = window.matchMedia && window.matchMedia('(display-mode: standalone)');
+    if (mq && mq.addEventListener) {
+      mq.addEventListener('change', updateViewport);
+    }
+  </script>
+<title>2letters • Gestão Profissional</title>
+<link href="styles.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link href="manifest.webmanifest" rel="manifest"/>
+<meta content="#0f172a" name="theme-color"/>
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSk8ySEdOx3AMKZmrS8UYPLl9IwAiGs3Q",
+      authDomain: "studio-lh.firebaseapp.com",
+      projectId: "studio-lh",
+      storageBucket: "studio-lh.firebasestorage.app",
+      messagingSenderId: "131915141002",
+      appId: "1:131915141002:web:f2fe6a8c2851231201c273",
+      measurementId: "G-YNCENXQDLC"
+    };
+    if (typeof firebase !== 'undefined') {
+      if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      window.db = firebase.firestore();
+    }
+  </script>
+
+<style id="dp-dashboard-critical">
+/* V6 Dashboard Dark Premium 02B — CSS crítico isolado para evitar heranças do layout legado */
+#tab-dashboard.dp-dashboard.active{display:block!important;padding:0 14px 34px!important;background:transparent!important;border:0!important;box-shadow:none!important;overflow:visible!important}
+#tab-dashboard .dp-hero{padding:8px 0 18px!important;margin:0!important;background:none!important;border:0!important;box-shadow:none!important}
+#tab-dashboard .dp-eyebrow{font-size:13px!important;line-height:1.2!important;letter-spacing:.08em!important;color:#a1a1aa!important;margin:0 0 7px!important}
+#tab-dashboard .dp-hero h1{font-size:34px!important;line-height:1.05!important;margin:0!important;color:#fafafa!important;font-weight:800!important;letter-spacing:-.03em!important}
+#tab-dashboard .dp-date{font-size:15px!important;line-height:1.35!important;color:#d4d4d8!important;margin-top:10px!important}
+#tab-dashboard .dp-kpis{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important;width:100%!important;margin:0!important;padding:0!important}
+#tab-dashboard button.dp-kpi{appearance:none!important;-webkit-appearance:none!important;position:relative!important;display:block!important;width:100%!important;min-width:0!important;height:148px!important;min-height:148px!important;margin:0!important;padding:15px!important;border:1px solid #2a2a2f!important;border-radius:20px!important;background:linear-gradient(145deg,#111114,#09090b)!important;color:#fff!important;text-align:left!important;box-shadow:0 10px 26px rgba(0,0,0,.25)!important;overflow:hidden!important;white-space:normal!important}
+#tab-dashboard button.dp-kpi::after{content:""!important;position:absolute!important;right:-32px!important;bottom:-35px!important;width:105px!important;height:80px!important;border-radius:50%!important;opacity:.14!important}
+#tab-dashboard button.dp-kpi-clientes::after,#tab-dashboard button.dp-kpi-pendente::after{background:#ef3340!important}#tab-dashboard button.dp-kpi-agenda::after{background:#24c875!important}#tab-dashboard button.dp-kpi-receita::after{background:#f5b82e!important}
+#tab-dashboard .dp-kpi-icon{display:grid!important;place-items:center!important;width:39px!important;height:39px!important;margin:0 0 11px!important;border-radius:12px!important;background:rgba(239,51,64,.18)!important;color:#ff747d!important;font-size:17px!important;line-height:1!important}
+#tab-dashboard .dp-kpi-agenda .dp-kpi-icon{background:rgba(36,200,117,.18)!important;color:#67e7a1!important}#tab-dashboard .dp-kpi-receita .dp-kpi-icon{background:rgba(245,184,46,.18)!important;color:#ffd063!important}
+#tab-dashboard .dp-kpi-copy{display:flex!important;flex-direction:column!important;align-items:flex-start!important;width:100%!important;min-width:0!important;gap:0!important}
+#tab-dashboard .dp-kpi-copy small{display:block!important;margin:0 0 3px!important;font-size:12px!important;line-height:1.2!important;color:#d4d4d8!important;font-weight:500!important}
+#tab-dashboard .dp-kpi-copy strong{display:block!important;margin:0!important;font-size:27px!important;line-height:1.05!important;color:#fff!important;font-weight:800!important;letter-spacing:-.025em!important;white-space:nowrap!important}
+#tab-dashboard .dp-kpi-copy em{display:block!important;margin-top:5px!important;font-size:11px!important;line-height:1.2!important;color:#85858e!important;font-style:normal!important;font-weight:400!important}
+#tab-dashboard .dp-chevron{position:absolute!important;right:13px!important;top:17px!important;color:#74747c!important;font-size:11px!important}
+#tab-dashboard .dp-compat,#tab-dashboard .dp-secondary-data,#tab-dashboard .dp-fiados-hidden{display:none!important;width:0!important;height:0!important;overflow:hidden!important}
+#tab-dashboard .dp-section{display:block!important;margin:27px 0 0!important;padding:0!important;background:none!important;border:0!important;box-shadow:none!important}
+#tab-dashboard .dp-section-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:0 0 11px!important;padding:0!important}
+#tab-dashboard .dp-section-head h2{margin:0!important;font-size:14px!important;line-height:1.2!important;letter-spacing:.035em!important;font-weight:600!important;color:#e4e4e7!important}
+#tab-dashboard button.dp-link{appearance:none!important;width:auto!important;min-height:0!important;margin:0!important;padding:5px 0!important;border:0!important;border-radius:0!important;background:none!important;color:#ef4444!important;font-size:12px!important;line-height:1.2!important;box-shadow:none!important}
+#tab-dashboard .dp-appointments{display:flex!important;flex-direction:column!important;gap:9px!important;margin:0!important;padding:0!important}
+#tab-dashboard .dp-appointments .item{display:block!important;width:100%!important;margin:0!important;padding:0!important;border:1px solid #29292e!important;border-radius:17px!important;background:linear-gradient(90deg,#111113,#0b0b0d)!important;overflow:hidden!important;box-shadow:none!important}
+#tab-dashboard .dp-appointment-row{display:grid!important;grid-template-columns:62px minmax(0,1fr) auto!important;align-items:center!important;min-height:72px!important;padding:10px 10px 10px 0!important;border-left:5px solid #ef3340!important}
+#tab-dashboard .dp-ap-time{font-size:17px!important;font-weight:800!important;line-height:1!important;text-align:center!important;color:#fff!important;border-right:1px solid #2b2b30!important}
+#tab-dashboard .dp-ap-main{min-width:0!important;padding:0 10px!important}.dp-ap-main strong{display:block!important;font-size:13px!important;color:#f4f4f5!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}.dp-ap-main span{display:block!important;margin-top:4px!important;font-size:11px!important;color:#8f8f98!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+#tab-dashboard .dp-ap-status{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;padding:6px 8px!important;border-radius:999px!important;font-size:9px!important;line-height:1!important;font-weight:700!important;white-space:nowrap!important;background:#15365c!important;color:#79baff!important}
+#tab-dashboard .dp-ap-status.concluido{background:#123f2a!important;color:#65e5a0!important}#tab-dashboard .dp-ap-status.cancelado{background:#4a171b!important;color:#ff8b92!important}#tab-dashboard .dp-ap-status.pendente{background:#493119!important;color:#ffc46b!important}
+#tab-dashboard .dp-quick-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;width:100%!important;margin:0!important;padding:0!important}
+#tab-dashboard button.dp-quick{appearance:none!important;-webkit-appearance:none!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;min-width:0!important;height:96px!important;margin:0!important;padding:8px 3px!important;border:1px solid #29292e!important;border-radius:17px!important;background:linear-gradient(145deg,#111114,#0b0b0d)!important;color:#e4e4e7!important;font-size:10px!important;line-height:1.2!important;text-align:center!important;white-space:normal!important;box-shadow:none!important}
+#tab-dashboard button.dp-quick i{font-size:20px!important;color:#f4f4f5!important}#tab-dashboard button.dp-quick-primary{background:linear-gradient(145deg,#5a141a,#170b0d)!important;border-color:#6f1d24!important}#tab-dashboard button.dp-quick-primary i{color:#ff7b84!important}
+@media (max-width:360px){#tab-dashboard.dp-dashboard.active{padding-left:10px!important;padding-right:10px!important}#tab-dashboard button.dp-kpi{height:140px!important;min-height:140px!important;padding:13px!important}#tab-dashboard .dp-kpi-copy strong{font-size:23px!important}#tab-dashboard .dp-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#tab-dashboard button.dp-quick{height:78px!important}}
+@media (min-width:761px){#tab-dashboard.dp-dashboard.active{max-width:980px!important;margin:0 auto!important}#tab-dashboard .dp-kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}#tab-dashboard button.dp-kpi{height:158px!important}#tab-dashboard .dp-quick-grid{max-width:650px!important}}
+</style>
+
+</head>
+<body class="only-login">
+<div class="wrap">
+<!-- HEADER -->
+<header class="header app-header">
+<button aria-label="Abrir menu" class="btn-menu" id="btnMenu">
+<i class="fa-solid fa-bars"></i>
+</button>
+<div class="header-title">
+<div class="logo-badge" id="logoBadge">
+<img alt="Logo 2L" class="logo-2l-icon" src="logo-2l.jpg"/>
+</div>
+<div class="header-text">
+<h1 class="brand">2<strong>letters</strong></h1>
+<p class="subtitle">Gestão profissional</p>
+</div>
+<img alt="Logo do Estúdio" class="logo-img hidden" id="logoImg"/>
+</div>
+<button aria-label="Abrir notificações" class="saldo-toggle notif-toggle" id="btnToggleSaldo">
+<span class="notif-dot hidden" id="notifDot" aria-hidden="true"></span><i class="fa-solid fa-bell"></i></button>
+</header>
+<div class="notif-screen hidden dp-notifications" id="notificationsScreen" role="dialog" aria-modal="true" aria-label="Centro de notificações">
+  <div class="notif-screen-header">
+    <button class="btn icon" id="btnCloseNotifications" type="button" aria-label="Voltar">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    <div class="notif-screen-title">
+      <i class="fa-regular fa-bell"></i>
+      <strong>Notificações</strong>
+    </div>
+
+    <button class="btn ghost sm" id="btnClearNotifications" type="button">
+      <i class="fa-solid fa-broom"></i> Limpar lidas
+    </button>
+  </div>
+
+  <div class="notif-screen-body">
+    <div class="notif-list" id="notificationsList"></div>
+    <div class="muted small hidden" id="notificationsEmpty">Sem notificações por enquanto.</div>
+  </div>
+</div>
+<!-- SIDEBAR MENU / PERFIL -->
+<aside class="sidebar hidden" id="sidebar">
+<div class="sidebar-profile">
+<div class="sidebar-profile-header">
+<div class="sidebar-avatar">
+<i class="fa-regular fa-user"></i>
+</div>
+<div class="sidebar-profile-info">
+<div class="sidebar-name" id="sbNome">—</div>
+<div class="sidebar-small sidebar-info">
+<i class="fa-solid fa-envelope sidebar-info-icon"></i>
+<span id="sbEmail">—</span>
+</div>
+<div class="sidebar-small sidebar-info">
+<i class="fa-solid fa-building sidebar-info-icon"></i>
+<span id="sbStudio">2letters</span>
+</div>
+<div class="sidebar-small sidebar-info">
+<i class="fa-solid fa-user-shield sidebar-info-icon"></i>
+<span id="sbRole">—</span>
+</div>
+<div class="sidebar-small sidebar-info">
+<i class="fa-solid fa-location-dot sidebar-info-icon"></i>
+<span id="sbEndereco">—</span>
+</div>
+<div class="sidebar-small sidebar-info">
+<i class="fa-solid fa-phone sidebar-info-icon"></i>
+<span id="sbContato">—</span>
+</div>
+<div class="sidebar-small" id="sbEmpresa" style="display:none;">—</div>
+</div>
+</div>
+</div>
+<nav class="menu-nav" id="navMenu">
+<button class="menu-item" data-tab="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+<button class="menu-item active" data-tab="agenda"><i class="fa-regular fa-clipboard-check"></i> Agenda</button>
+<button class="menu-item" data-tab="financeiro"><i class="fa-solid fa-coins"></i> Financeiro</button>
+<button class="menu-item" data-tab="visao-dono"><i class="fa-solid fa-chart-line"></i> Visão do Dono</button>
+<button class="menu-item" data-tab="clientes"><i class="fa-solid fa-users"></i> Clientes</button>
+<button class="menu-item" data-tab="servicos"><i class="fa-solid fa-paint-brush"></i> Serviços</button>
+<button class="menu-item" data-tab="anamnese"><i class="fa-regular fa-clipboard-check"></i> Anamnese</button>
+<button class="menu-item" data-tab="admin"><i class="fa-solid fa-shield-halved"></i> Admin</button>
+<button class="menu-item" data-tab="config"><i class="fa-solid fa-gear"></i> Config</button>
+<button class="menu-item" data-tab="meu-usuario"><i class="fa-solid fa-user"></i> Meu usuário</button>
+<button class="menu-item" data-tab="usuarios"><i class="fa-solid fa-user-group"></i> Funcionários</button>
+</nav>
+
+<!-- Botão fixo no rodapé do menu -->
+<div class="sidebar-footer">
+  <button class="menu-item menu-item-logout" id="sbBtnSair" type="button">
+    <i class="fa-solid fa-power-off"></i>
+    <span>Sair</span>
+  </button>
+</div>
+</aside>
+<div class="auth-container">
+<section class="auth-card" id="loginCard">
+<div class="auth-header">
+<div class="auth-avatar">
+<i class="fa-regular fa-user"></i>
+</div>
+</div>
+<div class="auth-body">
+<h2 class="auth-title" id="authTitle">Entrar</h2>
+<p class="auth-subtitle" id="authSubtitle">
+            Use seu e-mail e senha cadastrados.
+          </p>
+<div class="auth-message" id="authMessage"></div>
+<label class="label" for="emailLogin">E-mail</label>
+<input class="input" id="emailLogin" placeholder="seuemail@exemplo.com" type="email"/>
+<div id="groupSenha">
+<label class="label" for="senhaLogin">Senha</label>
+<input class="input" id="senhaLogin" placeholder="Digite sua senha" type="password"/>
+</div>
+<div class="hidden" id="groupConfirmSenha">
+<label class="label" for="senhaLoginConf">
+              Confirmar senha (apenas para criar conta)
+            </label>
+<input class="input" id="senhaLoginConf" placeholder="Repita a senha para cadastro" type="password"/>
+</div>
+<div class="auth-remember-row" id="authRememberRow">
+<label class="remember-checkbox">
+<input id="rememberLogin" type="checkbox"/>
+<span>Lembrar de mim neste dispositivo</span>
+</label>
+</div>
+<div class="auth-separator">
+<span>ou</span>
+</div>
+<button class="btn auth-btn-google" id="btnGoogleLogin" type="button">
+<i class="fa-brands fa-google"></i>
+            Entrar com Google
+          </button>
+<div class="hidden" id="forgotActions">
+<p class="auth-subtitle">
+              Informe seu e-mail e clique em "Enviar link" para receber o e-mail de redefinição de senha.
+            </p>
+<button class="btn auth-btn-primary" id="btnEnviarReset" type="button">
+              Enviar link de redefinição
+            </button>
+</div>
+<button class="btn auth-btn-primary" id="btnEntrar" type="button">
+            Entrar
+          </button>
+<button class="btn auth-btn-secondary" id="btnCadastro" type="button">
+            Criar conta
+          </button>
+<button class="auth-link-btn" id="btnResetSenha" type="button">
+            Esqueci minha senha
+          </button>
+<button class="auth-link-btn" id="btnAlterarSenha" type="button">
+            Alterar senha
+          </button>
+<button class="auth-link-btn hidden" id="btnVoltarLogin" type="button">
+            Voltar para login
+          </button>
+<p class="auth-bottom" id="authBottom">
+            Ainda não tem cadastro?
+            <span class="auth-bottom-strong">Crie sua conta com o botão “Criar conta”.</span>
+</p>
+</div>
+</section>
+</div>
+<!-- MODAL ALTERAR SENHA -->
+<div class="auth-modal hidden" id="modalAlterarSenha">
+<div class="auth-modal-backdrop"></div>
+<div class="auth-modal-dialog">
+<div class="auth-modal-header">
+<h2>Alterar senha</h2>
+<button class="auth-modal-close" id="altSenhaFechar" type="button">×</button>
+</div>
+<div class="auth-modal-body">
+<p class="auth-modal-text">
+            Informe seu e-mail, sua senha atual e a nova senha que deseja cadastrar.
+          </p>
+<div class="auth-message" id="altSenhaMsg" style="margin-bottom:8px;"></div>
+<label class="label" for="altEmail">E-mail</label>
+<input class="input" id="altEmail" placeholder="seuemail@exemplo.com" type="email"/>
+<label class="label" for="altSenhaAtual">Senha atual</label>
+<input class="input" id="altSenhaAtual" placeholder="Digite sua senha atual" type="password"/>
+<label class="label" for="altSenhaNova">Nova senha</label>
+<input class="input" id="altSenhaNova" placeholder="Digite a nova senha" type="password"/>
+<label class="label" for="altSenhaNova2">Confirmar nova senha</label>
+<input class="input" id="altSenhaNova2" placeholder="Repita a nova senha" type="password"/>
+</div>
+<div class="auth-modal-footer">
+<button class="btn ghost" id="altSenhaCancelar" type="button">Cancelar</button>
+<button class="btn auth-btn-primary" id="altSenhaSalvar" type="button">Salvar nova senha</button>
+</div>
+</div>
+</div>
+<!-- MODAL PESQUISAR CLIENTE (NOVO AGENDAMENTO) -->
+<div class="auth-modal hidden" id="modalBuscaClienteAg">
+<div class="auth-modal-backdrop" data-close="1"></div>
+<div class="auth-modal-dialog client-search-dialog">
+<div class="auth-modal-header">
+<h2>Pesquisar cliente</h2>
+<button class="auth-modal-close" id="agClienteBuscaFechar" type="button">×</button>
+</div>
+<div class="auth-modal-body">
+<input autocomplete="off" class="input" id="agClienteBuscaInput" placeholder="Digite para pesquisar..." type="text"/>
+<div class="client-search-list" id="agClienteBuscaLista"></div>
+</div>
+</div>
+</div>
+
+<!-- MODAL PESQUISAR SERVIÇO (NOVO AGENDAMENTO) -->
+<div class="auth-modal hidden" id="modalBuscaServicoAg">
+  <div class="auth-modal-backdrop" data-close="1"></div>
+  <div class="auth-modal-dialog client-search-dialog">
+    <div class="auth-modal-header">
+      <h2>Pesquisar serviço</h2>
+      <button class="auth-modal-close" id="agServicoBuscaFechar" type="button">×</button>
+    </div>
+    <div class="auth-modal-body">
+      <input autocomplete="off" class="input" id="agServicoBuscaInput" placeholder="Digite para pesquisar..." type="text"/>
+      <div class="client-search-list" id="agServicoBuscaLista"></div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD DARK PREMIUM -->
+<section class="tabpane dp-dashboard" id="tab-dashboard">
+  <div class="dp-hero">
+    <div>
+      <div class="dp-eyebrow">VISÃO GERAL</div>
+      <h1>Olá, <span id="dpNomeUsuario">Usuário</span>!</h1>
+      <div class="dp-date" id="dpDataHoje">—</div>
+    </div>
+  </div>
+
+  <div class="dp-kpis">
+    <button class="dp-kpi dp-kpi-clientes v51-kpi-link" data-v51-action="clientes" type="button">
+      <span class="dp-kpi-icon"><i class="fa-solid fa-users"></i></span>
+      <span class="dp-kpi-copy"><small>Clientes</small><strong id="stClientes">0</strong><em>Cadastrados</em></span>
+      <i class="fa-solid fa-chevron-right dp-chevron"></i>
+    </button>
+    <button class="dp-kpi dp-kpi-agenda v51-kpi-link" data-v51-action="agenda-hoje" type="button">
+      <span class="dp-kpi-icon"><i class="fa-regular fa-calendar-check"></i></span>
+      <span class="dp-kpi-copy"><small>Hoje</small><strong id="stHoje">0</strong><em>Agendamentos</em></span>
+      <i class="fa-solid fa-chevron-right dp-chevron"></i>
+    </button>
+    <button class="dp-kpi dp-kpi-receita v51-kpi-link" data-v51-action="financeiro" type="button">
+      <span class="dp-kpi-icon"><i class="fa-solid fa-chart-column"></i></span>
+      <span class="dp-kpi-copy"><small>Receita Hoje</small><strong id="stReceitaHoje">R$ 0,00</strong><em>Recebido hoje</em></span>
+      <i class="fa-solid fa-chevron-right dp-chevron"></i>
+    </button>
+    <button class="dp-kpi dp-kpi-pendente v51-kpi-link" data-v51-action="agenda-pendentes" type="button">
+      <span class="dp-kpi-icon"><i class="fa-regular fa-clock"></i></span>
+      <span class="dp-kpi-copy"><small>Pendentes</small><strong id="stPendHoje">0</strong><em>Em aberto</em></span>
+      <i class="fa-solid fa-chevron-right dp-chevron"></i>
+    </button>
+  </div>
+
+  <!-- KPIs mantidos para compatibilidade com a lógica existente, sem ocupar a interface -->
+  <div class="dp-compat" aria-hidden="true">
+    <strong id="stMes">R$ 0,00</strong><strong id="stTx">0</strong><strong id="stProx7">0</strong><strong id="stConclMes">0</strong>
+  </div>
+
+  <section class="dp-section">
+    <div class="dp-section-head"><h2>PRÓXIMOS AGENDAMENTOS</h2><button class="dp-link" type="button" data-dp-action="agenda">Ver todos <i class="fa-solid fa-chevron-right"></i></button></div>
+    <div class="dp-appointments" id="dashProximosV5"></div>
+  </section>
+
+  <section class="dp-section dp-quick-section">
+    <div class="dp-section-head"><h2>AÇÕES RÁPIDAS</h2></div>
+    <div class="dp-quick-grid">
+      <button type="button" class="dp-quick dp-quick-primary" data-dp-action="novo-ag"><i class="fa-regular fa-calendar-plus"></i><span>Novo<br>Agendamento</span></button>
+      <button type="button" class="dp-quick" data-dp-action="novo-cliente"><i class="fa-solid fa-user-plus"></i><span>Novo<br>Cliente</span></button>
+      <button type="button" class="dp-quick" data-dp-action="novo-servico"><i class="fa-solid fa-scissors"></i><span>Novo<br>Serviço</span></button>
+      <button type="button" class="dp-quick" data-dp-action="relatorios"><i class="fa-solid fa-chart-column"></i><span>Ver<br>Relatórios</span></button>
+    </div>
+  </section>
+
+  <div class="dp-secondary-data" aria-label="Indicadores adicionais">
+    <div id="dashProfissionaisV5"></div>
+    <div class="dp-fiados-hidden">
+      <strong id="stFiadosAberto">R$ 0,00</strong><strong id="stFiadosQtd">0</strong><strong id="stFiadosRecebMes">R$ 0,00</strong><strong id="stFiadosPagosMes">0</strong><div id="dashFiadosList"></div>
+    </div>
+  </div>
+</section>
+<!-- AGENDA -->
+<section class="tabpane" id="tab-agenda">
+<div class="calendar-card agenda-view-only" id="mainCalendarContainer">
+<!-- O calendário principal será renderizado aqui -->
+</div>
+<div class="card" id="agendaResumoDiaCard">
+<div class="agenda-resumo-header">
+<h2>Agendamentos do dia</h2>
+<span class="agenda-resumo-data" id="agendaResumoDiaTitulo"></span>
+</div>
+<div class="agenda-resumo-scroll" id="agendaResumoDiaLista">
+<!-- Cards horizontais serão renderizados via JS -->
+</div>
+</div>
+<div class="row" style="margin-top:10px;">
+  <div class="col">
+    <button class="menu-item picker-btn ag-open-btn" id="btnAbrirNovoAgendamento" type="button">
+      <span class="cfg-left">
+        <i class="fa-solid fa-plus"></i>
+        <span>Novo Agendamento</span>
+      </span>
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- MODAL: NOVO AGENDAMENTO -->
+<div class="auth-modal hidden ag-modal" id="modalNovoAgendamento" aria-hidden="true">
+  <div class="auth-modal-backdrop" data-close="1"></div>
+  <div class="auth-modal-dialog ag-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="agFormTitle">
+    <div class="auth-modal-header ag-modal-header">
+      <h2 id="agFormTitle">Novo Agendamento</h2>
+    </div>
+    <div class="auth-modal-body ag-modal-body">
+      <div class="card" id="agFormCard" style="margin:0;">
+        <label class="label">Cliente</label>
+        <div class="select-search-wrap">
+          <!-- Botão (aparência) + select escondido (dados) -->
+          <button class="menu-item picker-btn" id="btnAgClientePicker" type="button">
+            <span class="cfg-left"><i class="fa-regular fa-user"></i><span id="agClientePickerText">Selecione um cliente</span></span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <!-- select mantido apenas para compatibilidade com a lógica existente (sempre oculto) -->
+          <select class="input hidden-select" id="agCliente" aria-hidden="true" tabindex="-1" hidden style="display:none !important"></select>
+          <!-- Mantido (compatibilidade), mas não exibido -->
+          <button aria-label="Pesquisar cliente" class="select-search-btn hidden" id="btnBuscaClienteAg" title="Pesquisar cliente" type="button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+
+        <label class="label">Selecionar Serviço Cadastrado (opcional)</label>
+        <div class="select-search-wrap">
+          <button class="menu-item picker-btn" id="btnAgServicoSelPicker" type="button">
+            <span class="cfg-left"><i class="fa-solid fa-paint-brush"></i><span id="agServicoSelPickerText">Selecione um serviço</span></span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <!-- select mantido apenas para compatibilidade com a lógica existente (sempre oculto) -->
+          <select class="input hidden-select" id="agServicoSel" aria-hidden="true" tabindex="-1" hidden style="display:none !important"></select>
+        </div>
+
+        <label class="label">Serviço</label>
+        <input class="input" id="agServico" placeholder="Ex: Tatuagem realista"/>
+
+        <!-- Dia inteiro -->
+        <label class="check" style="margin-bottom:8px;">
+          <input id="agDiaInteiro" type="checkbox"/>
+          Dia inteiro
+        </label>
+
+        <!-- Começa -->
+        <div class="row">
+          <div class="col">
+            <label class="label">Começa</label>
+            <div class="row dt-row" style="gap:8px;">
+              <div class="dt-pill flex">
+                <i class="fa-regular fa-calendar"></i>
+                <input class="input dt-input" id="agInicioData" type="date"/>
+              </div>
+              <div class="dt-pill time">
+                <i class="fa-regular fa-clock"></i>
+                <input class="input dt-input" id="agInicioHora" type="time"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Termina -->
+        <div class="row">
+          <div class="col">
+            <label class="label">Termina</label>
+            <div class="row dt-row" style="gap:8px;">
+              <div class="dt-pill flex">
+                <i class="fa-regular fa-calendar"></i>
+                <input class="input dt-input" id="agFimData" type="date"/>
+              </div>
+              <div class="dt-pill time">
+                <i class="fa-regular fa-clock"></i>
+                <input class="input dt-input" id="agFimHora" type="time"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campos antigos, escondidos, para compatibilidade -->
+        <input class="input" id="agData" style="display:none;" type="date"/>
+        <input class="input" id="agHora" style="display:none;" type="time"/>
+
+        <label class="label">Responsável pelo atendimento</label>
+<select class="input" id="agResponsavel"></select>
+
+<label class="label">Valor (R$)</label>
+        <input class="input" id="agValor" inputmode="decimal" value="0,00"/>
+
+        <div class="row">
+          <div class="col">
+            <label class="label">Status</label>
+            <select class="input" id="agStatus">
+              <option value="agendado">Agendado</option>
+              <option value="concluido">Concluído</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="label">Observações</label>
+        <textarea class="input" id="agObs" placeholder="Observações adicionais..."></textarea>
+
+        <div class="ag-modal-footer-actions">
+          <button class="auth-modal-x ag-modal-back" id="agModalVoltar" type="button" aria-label="Voltar">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="btn primary ag-cta-sm" id="btnAgendar">Agendar Serviço</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+<h2 class="agenda-view-only">Agenda</h2>
+<div class="row agenda-view-only" style="align-items:center;justify-content:space-between;gap:8px;">
+<input class="input" id="buscaAgenda" placeholder="Buscar por cliente/serviço/data..." style="flex:1;"/>
+
+</div>
+<div class="row agenda-view-only ag-filtros-rapidos" id="agFiltrosRapidosBusca" style="gap:6px;flex-wrap:wrap;margin-top:6px;">
+<button class="btn ghost xs ag-busca-extra" data-ag-filter="today">Hoje</button>
+<button class="btn ghost xs ag-busca-extra" data-ag-filter="tomorrow">Amanhã</button>
+<button class="btn ghost xs ag-busca-extra" data-ag-filter="week">Esta semana</button>
+<button class="btn ghost xs ag-busca-extra" data-ag-filter="all">Todos</button>
+<select class="input v5-ag-filter" id="agFiltroStatus"><option value="all">Todos os status</option><option value="agendado">Agendado</option><option value="concluido">Concluído</option><option value="cancelado">Cancelado</option></select>
+<select class="input v5-ag-filter" id="agFiltroResponsavel"><option value="all">Todos os profissionais</option></select>
+<button class="btn ghost xs ag-busca-extra" id="btnLimparFiltrosAgenda" type="button"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar filtros</button>
+</div>
+<div class="agenda-view-only" id="agendaContagemV51" aria-live="polite" style="margin-top:8px;font-size:13px;opacity:.78;"></div>
+<div class="agenda-view-only" id="agendaFiltrosAtivosV51" aria-live="polite" style="margin-top:3px;font-size:12px;opacity:.68;"></div>
+<div class="kpi-row small agenda-view-only" id="agendaResumo"></div>
+<div class="list agenda-view-only" id="listaAgenda"></div>
+</div></section>
+</div>
+<!-- FINANCEIRO -->
+<section class="card tabpane dp-screen dp-financeiro" id="tab-financeiro">
+<div class="grid3 dp-fin-kpis">
+<div class="kpi green dp-fin-kpi"><small>Receitas</small><strong id="kpiReceitas">R$ 0,00</strong><button class="fab" id="openReceita" aria-label="Adicionar receita"><i class="fa-solid fa-plus"></i></button></div>
+<div class="kpi red dp-fin-kpi"><small>Despesas</small><strong id="kpiDespesas">R$ 0,00</strong><button class="fab" id="openDespesa" aria-label="Adicionar despesa"><i class="fa-solid fa-minus"></i></button></div>
+<div class="kpi blue dp-fin-kpi"><small>Saldo</small><strong id="kpiSaldo">R$ 0,00</strong><button class="fab" id="openResumo" aria-label="Ver resumo"><i class="fa-solid fa-receipt"></i></button></div>
+</div>
+<div class="sheet hidden" id="formTransacao">
+<h3>Nova Transação</h3>
+<label class="label">Tipo</label>
+<select class="input" id="txTipo">
+<option value="receita">Receita</option>
+<option value="despesa">Despesa</option>
+</select>
+<label class="label">Descrição</label>
+<input class="input" id="txDesc" placeholder="Ex: Pagamento de cliente / Compra de insumos"/>
+<label class="label">Valor (R$)</label>
+<input class="input" id="txValor" inputmode="decimal" value="0,00"/>
+<label class="label">Data</label>
+<div class="dt-pill flex"><i class="fa-regular fa-calendar"></i><input class="input dt-input" id="txData" type="date"/></div>
+<label class="label">Categoria</label>
+<select class="input" id="txCat">
+<option>Serviços</option><option>Produtos</option><option>Insumos</option><option>Comissão</option><option>Outros</option>
+</select>
+<button class="btn success" id="btnAddTx">Adicionar Transação</button>
+<button class="btn ghost" id="btnCloseTx">Fechar</button>
+</div>
+<hr class="divider"/>
+<h2>Lançamentos</h2>
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+<input class="input" id="buscaTx" placeholder="Buscar lançamentos..." style="flex:1;"/>
+<button class="btn ghost sm" id="btnExportTx">Exportar CSV</button>
+</div>
+<div class="list dp-appointments" id="listaTx"></div>
+
+<hr class="divider"/>
+
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+  <h2 class="flex1">Fiados</h2>
+  <button id="btnNovoFiado" class="menu-item compact" type="button">
+    <span class="cfg-left"><i class="fa-solid fa-hand-holding-dollar"></i><span>Novo Fiado</span></span>
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<div class="sheet hidden" id="formFiado">
+  <h3 id="fiadoFormTitle">Novo Fiado</h3>
+  <label class="label">Cliente</label>
+  <select class="input" id="fiCliente"></select>
+  <label class="label">Descrição</label>
+  <input class="input" id="fiDesc" placeholder="Ex: Pagamento pendente / Serviço X"/>
+  <label class="label">Valor (R$)</label>
+  <input class="input" id="fiValor" inputmode="decimal" value="0,00"/>
+
+  <!-- Parcelas / Pagamentos (Fiados) -->
+  <label class="label" style="margin-top:10px;">Parcelas</label>
+  <div class="row" style="gap:8px;flex-wrap:wrap;align-items:center;">
+    <div style="flex:1;min-width:120px;">
+      <label class="label" style="margin:0 0 6px;opacity:.9;">Qtd</label>
+      <input class="input" id="fiParcQtd" inputmode="numeric" value="1" />
+    </div>
+    <div style="flex:2;min-width:170px;">
+      <label class="label" style="margin:0 0 6px;opacity:.9;">1ª parcela</label>
+      <div class="dt-pill flex"><i class="fa-regular fa-calendar"></i><input class="input dt-input" id="fiParcPrimeira" type="date"/></div>
+    </div>
+    <div style="flex:2;min-width:170px;">
+      <label class="label" style="margin:0 0 6px;opacity:.9;">Frequência</label>
+      <select class="input" id="fiParcFreq">
+        <option value="mensal">Mensal</option>
+        <option value="quinzenal">Quinzenal</option>
+        <option value="semanal">Semanal</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="fiParcelasBox" style="margin-top:10px;"></div>
+  <label class="label">Data</label>
+  <div class="dt-pill flex"><i class="fa-regular fa-calendar"></i><input class="input dt-input" id="fiData" type="date"/></div>
+  <label class="label">Vencimento (opcional)</label>
+  <div class="dt-pill flex"><i class="fa-regular fa-calendar"></i><input class="input dt-input" id="fiVenc" type="date"/></div>
+  <button class="btn success" id="btnSalvarFiado" type="button">Salvar Fiado</button>
+  <button class="btn ghost" id="btnCancelarFiado" type="button">Fechar</button>
+</div>
+
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+  <input class="input" id="buscaFiado" placeholder="Buscar fiados..." style="flex:1;"/>
+</div>
+<div class="list" id="listaFiados"></div>
+</section>
+<!-- VISÃO DO DONO -->
+<section class="card tabpane dp-screen dp-owner" id="tab-visao-dono">
+<h2>Visão do Dono</h2>
+<p class="muted">Resumo financeiro por perfil. Apenas o administrador visualiza esta aba.</p>
+<div class="row" id="visaoDonoControles" style="gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px;">
+  <select class="input" id="visaoDonoFiltroFuncionario" style="min-width:180px;flex:1;">
+    <option value="__all__">Todos os funcionários</option>
+  </select>
+  <div class="dt-pill month" style="min-width:150px;flex:0 0 auto;"><i class="fa-regular fa-calendar"></i><input class="input dt-input" id="visaoDonoFiltroMes" type="month" /></div>
+  <button class="btn ghost sm" id="visaoDonoBtnLimparFiltros" type="button">Limpar filtros</button>
+  <button class="btn ghost sm" id="visaoDonoBtnRanking" type="button">Ranking: ON</button>
+</div>
+
+<div class="grid3 dp-owner-kpis" id="visaoDonoResumo" style="margin-top:12px;"></div>
+<div class="list dp-owner-list" id="visaoDonoLista" style="margin-top:12px;"></div>
+</section>
+<!-- CLIENTES -->
+<section class="card tabpane dp-screen dp-clientes" id="tab-clientes">
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+<h2 class="flex1">Clientes Cadastrados</h2>
+<input class="input" id="buscaCliente" placeholder="Buscar cliente..." style="flex:1;min-width:160px;"/>
+<button id="btnAniversariantes" class="menu-item compact" type="button" title="Aniversariantes de hoje">
+  <span class="cfg-left"><i class="fa-solid fa-cake-candles"></i><span>Aniversariantes</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+<button id="btnNovoCliente" class="menu-item compact"><span class="cfg-left"><i class="fa-solid fa-user-plus"></i><span>Novo Cliente</span></span><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<div class="list dp-client-list" id="listaClientes"></div>
+</section>
+
+<!-- MODAL: ANIVERSARIANTES (HOJE) -->
+<div class="auth-modal hidden" id="modalAniversariantes">
+  <div class="auth-modal-backdrop" data-close="1"></div>
+  <div class="auth-modal-dialog aniv-modal-dialog">
+    <div class="auth-modal-header">
+      <h2>Aniversariantes de hoje</h2>
+      <button class="auth-modal-close" id="anivFechar" type="button">×</button>
+    </div>
+    <div class="auth-modal-body">
+      <div class="list" id="listaAniversariantesHoje"></div>
+    </div>
+  </div>
+</div>
+<!-- CADASTRO DE CLIENTE -->
+<section class="card tabpane dp-screen dp-form-screen" id="tab-clientes-cadastro">
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+<h2 class="flex1">Novo Cliente</h2>
+<button class="btn ghost sm" id="btnVoltarClientes">Voltar para lista</button>
+</div>
+<div id="novoClienteForm" style="margin-top:16px;">
+<label class="label">Nome Completo</label>
+<input class="input" id="clNome" placeholder="Nome do cliente"/>
+<label class="label">Email</label>
+<input class="input" id="clEmail" placeholder="email@exemplo.com"/>
+<label class="label">WhatsApp</label>
+<input class="input" id="clZap" placeholder="(11) 99999-9999"/>
+<label class="label">Data de Nascimento</label>
+<input class="input" id="clNasc" type="date"/>
+<label class="label">Endereço</label>
+<textarea class="input" id="clEnd" placeholder="Endereço completo"></textarea>
+<button class="btn violet" id="btnAddCliente">Cadastrar Cliente</button>
+</div>
+</section>
+<!-- SERVIÇOS -->
+<section class="card tabpane dp-screen dp-servicos" id="tab-servicos">
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+<h2 class="flex1">Serviços Cadastrados</h2>
+<input class="input" id="buscaServico" placeholder="Buscar serviço..." style="flex:1;min-width:160px;"/>
+<button id="btnNovoServico" class="menu-item compact"><span class="cfg-left"><i class="fa-solid fa-plus"></i><span>Cadastrar Serviço</span></span><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+<div class="list dp-service-list" id="listaServicos"></div>
+</section>
+<!-- CADASTRO DE SERVIÇO -->
+<section class="card tabpane dp-screen dp-form-screen" id="tab-servicos-cadastro">
+<div class="row" style="align-items:center;justify-content:space-between;gap:8px;">
+<h2 class="flex1">Novo Serviço</h2>
+<button class="btn ghost sm" id="btnVoltarServicos">Voltar para lista</button>
+</div>
+<label class="label">Nome do Serviço</label>
+<input class="input" id="svNome" placeholder="Ex: Tatuagem Realista"/>
+<label class="label">Descrição</label>
+<textarea class="input" id="svDescricao" placeholder="Descrição do serviço..."></textarea>
+<label class="label">Preço (R$)</label>
+<input class="input" id="svPreco" inputmode="decimal" value="0,00"/>
+<label class="label">Duração Estimada (minutos)</label>
+<input class="input" id="svDuracao" inputmode="numeric" placeholder="Ex: 120"/>
+<button class="btn violet full" id="btnAddServico">Cadastrar Serviço</button>
+</section>
+<!-- ANAMNESE -->
+<section class="card tabpane" id="tab-anamnese">
+<h2>Modelos de Anamnese</h2>
+<div class="modelos">
+<button class="btn model azul" data-modelo="basico">📝 Modelo Básico</button>
+<button class="btn model verde" data-modelo="detalhado">📊 Modelo Detalhado</button>
+<button class="btn model roxo" data-modelo="completo">✅ Modelo Completo</button>
+</div>
+<h2>Nova Anamnese</h2>
+<label class="label">Cliente</label>
+<select class="input" id="anCliente"></select>
+
+<div id="anEditor" class="an-editor hidden"></div>
+
+<div class="an-grid" id="anCampos"></div>
+
+<label class="label">Termos</label>
+<textarea class="input" id="anTermos" placeholder="Digite os termos deste modelo..." style="min-height:110px"></textarea>
+
+<div class="an-sign">
+  <label class="label">Assinatura (on-line)</label>
+  <canvas id="anCanvas" class="sig-canvas" width="600" height="180"></canvas>
+  <div class="row" style="gap:8px;justify-content:flex-end;margin-top:8px;">
+    <button class="btn ghost sm" id="btnLimparAss" type="button"><i class="fa-solid fa-eraser"></i> Limpar assinatura</button>
+  </div>
+</div>
+
+<button class="btn primary" id="btnSalvarAn">Salvar Anamnese</button>
+<hr class="divider"/>
+<h2>Anamneses Realizadas</h2>
+<input class="input" id="buscaAn" placeholder="Buscar por cliente..."/>
+<div class="list" id="listaAn"></div>
+</section>
+<!-- ADMIN -->
+<section class="card tabpane" id="tab-admin">
+<h2>Banco de Dados</h2>
+<div class="db-status box">
+<p class="flag ok" id="dbFlag">✅ Dados salvos permanentemente no dispositivo</p>
+<p class="muted sm">Última atualização: <span id="dbUltima">—</span></p>
+<p class="muted sm">Auto-save ativo • Backup triplo • Recuperação automática</p>
+</div>
+<div class="row" style="gap:10px;flex-wrap:wrap">
+<button class="btn primary" id="btnExportar">🖼️ Exportar</button>
+<label class="btn success filebtn">📥 Importar
+          <input accept="application/json" hidden="" id="fileImport" type="file"/>
+</label>
+<button class="btn violet" id="btnBackup"><i class="fa-solid fa-floppy-disk"></i> Backup Manual</button>
+<button class="btn ghost" id="btnRecuperar"><i class="fa-solid fa-rotate-right"></i> Recuperar Dados</button>
+</div>
+<div class="sheet" style="margin-top:16px">
+<h3>Relatórios da Agenda</h3>
+<p class="muted sm">Exporte os agendamentos em CSV ou gere o relatório em PDF.</p>
+<div class="row" style="gap:10px;flex-wrap:wrap">
+<button id="btnExportAgenda" class="btn ghost"><i class="fa-solid fa-file-csv"></i> Exportar CSV</button>
+<button id="btnRelatorioAgendaPdf" class="btn ghost"><i class="fa-solid fa-file-pdf"></i> Relatório PDF</button>
+</div>
+</div>
+<div class="sheet">
+<h3>Status do Banco</h3>
+<div class="stats-grid">
+<div><small>Tamanho dos dados</small><strong id="stTam">0 KB</strong></div>
+<div><small>Registros totais</small><strong id="stRegs">0</strong></div>
+<div><small>Backups disponíveis</small><strong id="stBkp">0</strong></div>
+<div><small>Status de segurança</small><strong id="stSeg">Desprotegido</strong></div>
+</div>
+<h4>Backups Automáticos</h4>
+<div class="list" id="listaBackups"></div>
+</div>
+<div class="sheet" style="margin-top:16px">
+<h3>Histórico de alterações</h3>
+<p class="muted sm">Últimas ações registradas no estabelecimento.</p>
+<input class="input" id="buscaAuditV4" placeholder="Buscar por usuário, área ou ação..."/>
+<div class="list" id="listaAuditV4" style="margin-top:10px"></div>
+</div>
+</section>
+<!-- CONFIG -->
+<section class="card tabpane dp-screen dp-config" id="tab-config">
+<h2>Configurações Gerais</h2>
+<label class="label">Nome do Estúdio</label>
+<input class="input" id="cfgEstudio" placeholder="2letters">
+<hr class="divider"/>
+
+<hr class="divider"/>
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalMoeda">
+  <span class="cfg-left"><i class="fa-solid fa-coins"></i><span>Moeda</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+<hr class="divider"/>
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalTema">
+  <span class="cfg-left"><i class="fa-solid fa-moon"></i><span>Tema</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+
+<hr class="divider"/>
+
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalWhats">
+  <span class="cfg-left"><i class="fa-brands fa-whatsapp"></i><span>Notificações WhatsApp</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+<hr class="divider"/>
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalCores">
+  <span class="cfg-left"><i class="fa-solid fa-palette"></i><span>Cores dos Agendamentos</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+<hr class="divider"/>
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalAcoes">
+  <span class="cfg-left"><i class="fa-solid fa-sliders"></i><span>Ações do Sistema</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+<hr class="divider"/>
+<button class="menu-item cfg-menu-btn" type="button" data-open="modalSeg">
+  <span class="cfg-left"><i class="fa-solid fa-shield-halved"></i><span>Segurança</span></span>
+  <i class="fa-solid fa-chevron-right"></i>
+</button>
+
+<div class="cfg-save-wrap"><div class="save-bar"><button id="btnSalvarCfg" class="btn btn-save-fixed success" type="button"><i class="fa-solid fa-check"></i> Salvar Configurações</button></div></div>
+
+<div class="auth-modal hidden cfg-modal" 
+<div class="auth-modal hidden cfg-modal" id="modalMoeda">
+  <div class="auth-modal-backdrop" data-close="modalMoeda"></div>
+  <div class="auth-modal-dialog">
+    <div class="auth-modal-header">
+      <h2>Moeda</h2>
+      <button class="auth-modal-x" data-close="modalMoeda" type="button">✕</button>
+    </div>
+    <div class="auth-modal-body">
+      <label class="label">Selecione a moeda</label>
+      <select class="input" id="cfgMoeda">
+        <option value="BRL">BRL</option>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+      </select>
+    </div>
+    <div class="auth-modal-footer">
+      <button class="btn btn-secondary" data-close="modalMoeda" type="button">Voltar</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="auth-modal hidden cfg-modal" id="modalTema">
+  <div class="auth-modal-backdrop" data-close="modalTema"></div>
+  <div class="auth-modal-dialog">
+    <div class="auth-modal-header">
+      <h2>Tema</h2>
+      <button class="auth-modal-x" data-close="modalTema" type="button">✕</button>
+    </div>
+    <div class="auth-modal-body">
+      <label class="label">Selecione o tema</label>
+      <select class="input" id="cfgTema">
+        <option value="auto">Automático (sistema)</option><option value="dark">Dark</option><option value="light">Light</option><option value="green">Verde</option>
+      </select>
+    </div>
+    <div class="auth-modal-footer">
+      <button class="btn btn-secondary" data-close="modalTema" type="button">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<div class="auth-modal hidden cfg-modal" id="modalWhats">
+<div class="auth-modal-backdrop" data-close="modalWhats"></div>
+<div class="auth-modal-dialog">
+<div class="auth-modal-header">
+<h2>Notificações WhatsApp</h2>
+<button class="auth-modal-x" data-close="modalWhats" type="button">✕</button>
+</div>
+<div class="auth-modal-body">
+<label class="check"><input id="cfgWpp24" type="checkbox"/> Lembrete 24h antes</label>
+<label class="check"><input id="cfgWpp2" type="checkbox"/> Lembrete 2h antes</label>
+<label class="check"><input id="cfgAutoBackup" type="checkbox"/> Auto-backup diário</label>
+<label class="label">Mensagem de lembrete (Agendado)</label>
+<textarea class="input" id="cfgMsgWpp" placeholder="Olá {{CLIENTE}}, lembrando do seu horário em {{DATA}} ({{HORA}})."></textarea>
+<label class="label">Mensagem quando concluir (Concluído)</label>
+<textarea class="input" id="cfgMsgWppConcluido" placeholder="Obrigado {{CLIENTE}} por fechar com a gente em {{DATA}} ({{HORA}})! Qualquer dúvida é só chamar."></textarea>
+<label class="label">Mensagem ao cancelar (Cancelado)</label>
+<textarea class="input" id="cfgMsgWppCancelado" placeholder="Seu horário de {{SERVICO}} em {{DATA}} ({{HORA}}) foi cancelado. Se quiser remarcar é só responder aqui."></textarea>
+<label class="label">Chave PIX usada nas mensagens</label>
+<input class="input" id="cfgPixChave" placeholder="Chave PIX (telefone, e-mail ou aleatória)">
+</input></div>
+<div class="auth-modal-footer"><button class="btn btn-secondary" data-close="modalWhats" type="button">Voltar</button></div></div>
+</div>
+<div class="auth-modal hidden cfg-modal" id="modalCores">
+<div class="auth-modal-backdrop" data-close="modalCores"></div>
+<div class="auth-modal-dialog">
+<div class="auth-modal-header">
+<h2>Cores dos Agendamentos</h2>
+<button class="auth-modal-x" data-close="modalCores" type="button">✕</button>
+</div>
+<div class="auth-modal-body">
+<div class="row">
+<div class="col">
+<label class="label">Agendado</label>
+<input class="input" id="corAg" type="color" value="#3b82f6"/>
+</div>
+<div class="col">
+<label class="label">Concluído</label>
+<input class="input" id="corCo" type="color" value="#22c55e"/>
+</div>
+<div class="col">
+<label class="label">Cancelado</label>
+<input class="input" id="corCa" type="color" value="#ef4444"/>
+</div>
+</div>
+<button class="btn violet" id="btnSalvarCores">🎨 Salvar Cores</button>
+</div>
+<div class="auth-modal-footer"><button class="btn btn-secondary" data-close="modalCores" type="button">Voltar</button></div></div>
+</div>
+<div class="auth-modal hidden cfg-modal" id="modalAcoes">
+<div class="auth-modal-backdrop" data-close="modalAcoes"></div>
+<div class="auth-modal-dialog">
+<div class="auth-modal-header">
+<h2>Ações do Sistema</h2>
+<button class="auth-modal-x" data-close="modalAcoes" type="button">✕</button>
+</div>
+<div class="auth-modal-body">
+<div class="row" style="gap:10px;flex-wrap:wrap">
+<button class="btn orange" id="btnLimparCache">🧹 Limpar Cache</button>
+<button class="btn danger" id="btnResetApp">🔁 Resetar Aplicativo</button>
+<button class="btn violet" id="btnTestar">🔗 Testar Conexão</button>
+<button class="btn primary" id="btnRelatorio">📊 Exportar Relatório</button>
+</div>
+</div>
+<div class="auth-modal-footer"><button class="btn btn-secondary" data-close="modalAcoes" type="button">Voltar</button></div></div>
+</div>
+<div class="auth-modal hidden cfg-modal" id="modalSeg">
+<div class="auth-modal-backdrop" data-close="modalSeg"></div>
+<div class="auth-modal-dialog">
+<div class="auth-modal-header">
+<h2>Segurança</h2>
+<button class="auth-modal-x" data-close="modalSeg" type="button">✕</button>
+</div>
+<div class="auth-modal-body">
+<div class="alert" id="warnSenha">⚠️ Nenhuma senha configurada. Configure uma senha para proteger seus dados.</div>
+<label class="label">Senha Atual (se configurada)</label>
+<input class="input" id="segAtual" placeholder="Digite a senha atual" type="password">
+<label class="label">Nova Senha</label>
+<input class="input" id="segNova" placeholder="Digite a nova senha" type="password">
+<label class="label">Confirmar Nova Senha</label>
+<input class="input" id="segConf" placeholder="Confirme a nova senha" type="password">
+<button class="btn primary" id="btnTrocarSenha">Alterar Senha</button>
+</input></input></input></div><div class="auth-modal-footer"><button class="btn btn-secondary" data-close="modalSeg" type="button">Voltar</button></div></div></div></input></section>
+<!-- MEU USUÁRIO -->
+<section class="card tabpane dp-screen dp-profile" id="tab-meu-usuario">
+<div class="perfil-usuario-header">
+<div class="perfil-avatar">
+<i class="fa-solid fa-user"></i>
+</div>
+<button class="btn primary perfil-img-btn" id="btnMeuUsuarioImagem" type="button">
+<i class="fa-regular fa-image"></i>
+<span>Imagem</span>
+</button>
+<input accept="image/*" class="hidden" id="meuUsuarioImagemInput" type="file">
+</input></div>
+<div class="perfil-usuario-body">
+<label class="label" for="meuNome">Nome</label>
+<input class="input" id="meuNome" placeholder="Seu nome completo">
+<div class="row perfil-row-2col">
+<div class="col">
+<label class="label" for="meuEmail">E-mail</label>
+<input class="input" id="meuEmail" placeholder="seuemail@exemplo.com" type="email"/>
+</div>
+<div class="col">
+<label class="label" for="meuCpfCnpj">CPF / CNPJ</label>
+<input class="input" id="meuCpfCnpj" placeholder="Opcional"/>
+</div>
+</div>
+<div class="perfil-privacidade-email">
+<label class="label" style="display:flex;align-items:center;gap:8px;">
+<input id="meuOcultarEmail" type="checkbox"/>
+<span>Não mostrar meu e-mail no menu lateral e no cartão do usuário</span>
+</label>
+<p class="muted" style="font-size:12px;margin-top:4px;">
+            O e-mail continuará sendo usado apenas para login e recuperação de senha.
+          </p>
+</div>
+<label class="label" for="meuEndereco">Endereço</label>
+<input class="input" id="meuEndereco" placeholder="Seu endereço completo"/>
+<label class="label" for="meuContato">Contato</label>
+<input class="input" id="meuContato" placeholder="Telefone ou WhatsApp"/>
+<label class="label" for="meuEmpresa">Nome da empresa</label>
+<input class="input" id="meuEmpresa" placeholder="Nome da empresa (opcional)"/>
+<label class="label" for="meuCategoriaServico">Categoria de serviço</label>
+<select class="input" id="meuCategoriaServico">
+<option value="">Selecione...</option>
+<option value="Administrador">Administrador</option>
+<option value="Gerente">Gerente</option>
+<option value="CEO">CEO</option>
+<option value="Tatuador">Tatuador</option>
+<option value="Lash">Lash</option>
+<option value="Autônomo">Autônomo</option>
+</select>
+<label class="label" for="meuLogin">Login</label>
+<input class="input" disabled="" id="meuLogin" type="email"/>
+<label class="label" for="meuNovaSenha">Atualizar senha</label>
+<input class="input" id="meuNovaSenha" placeholder="Nova senha" type="password"/>
+<label class="label" for="meuNovaSenha2">Repita a nova senha</label>
+<input class="input" id="meuNovaSenha2" placeholder="Repita a nova senha" type="password"/>
+<p class="auth-message" id="meuUsuarioMsg"></p>
+</input></div>
+<div class="perfil-usuario-footer">
+<button class="btn success perfil-save-btn" id="btnMeuUsuarioSalvar" type="button">
+<i class="fa-solid fa-check"></i>
+<span>Salvar</span>
+</button>
+</div>
+</section>
+<!-- USUÁRIOS -->
+<section class="card tabpane" id="tab-usuarios">
+<div id="usuariosListView">
+<div class="usuarios-header" style="margin-bottom:12px;">
+  <button class="btn ghost" id="btnToggleInativos" type="button">Mostrar inativos</button>
+  <h2 class="usuarios-title">Funcionários</h2>
+  <button class="btn primary usuarios-add-btn usuarios-add-btn--small" id="btnNovoFuncionario" type="button">Adicionar funcionário</button>
+</div>
+<p class="muted" style="margin-top:4px;font-size:13px;">
+          Lista de funcionários cadastrados no sistema. Apenas funcionários são exibidos aqui.
+        </p>
+<div class="list" id="listaFuncionarios">
+<!-- Lista de funcionários (somente perfis internos, exceto administrador) -->
+</div>
+</div>
+<div class="hidden" id="usuariosCadastroView">
+<h2>Cadastrar funcionário</h2>
+<label class="label">Nome completo</label>
+<input class="input" id="usNome" placeholder="Nome completo"/>
+<label class="label">E-mail</label>
+<input class="input" id="usEmail" placeholder="email@exemplo.com" type="email"/>
+<label class="label">Cargo / Função</label>
+<input class="input" id="usCargo" placeholder="Ex: Recepcionista, Fisioterapeuta..."/>
+<label class="label">Setor <span class="muted">(opcional)</span></label>
+<input class="input" id="usSetor" placeholder="Ex: Recepção, Atendimento, Financeiro..."/>
+<label class="label">Permissões de acesso</label>
+<div class="row" style="gap:12px;flex-wrap:wrap;margin-bottom:12px">
+<label class="check"><input id="usPermAgenda" type="checkbox" checked/> Agenda</label>
+<label class="check"><input id="usPermClientes" type="checkbox" checked/> Clientes</label>
+<label class="check"><input id="usPermFinanceiro" type="checkbox" checked/> Financeiro</label>
+<label class="check"><input id="usPermAnamnese" type="checkbox" checked/> Anamnese</label>
+</div>
+<label class="label">Situação</label>
+<select class="input" id="usSituacao">
+<option selected="" value="ativo">Ativo</option>
+<option value="inativo">Inativo</option>
+</select>
+<label class="label">Senha inicial</label>
+<input class="input" id="usSenha" placeholder="Senha definida pelo administrador" type="password"/>
+<label class="label">Confirmar senha</label>
+<input class="input" id="usSenhaConf" placeholder="Repita a senha do funcionário" type="password"/>
+<p class="muted" style="font-size:12px;margin-top:4px;">
+          O funcionário deverá acessar o sistema usando este e-mail e esta senha.
+          Ele poderá alterá-la depois em "Esqueci a senha".
+        </p>
+<div class="row" style="justify-content:flex-end;margin-top:12px;gap:8px;">
+<button class="btn ghost" id="btnCancelarCadastroFuncionario" type="button">Cancelar</button>
+<button class="btn success" id="usAdd" type="button">Salvar funcionário</button>
+</div>
+</div>
+</section>
+
+<script src="calendar.js"></script>
+<script src="app.v2.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+      addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+    }
+  </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector(".app-header");
+  const wrap = document.querySelector(".wrap");
+  function fixPadding() {
+    if (!header || !wrap) return;
+    const h = header.offsetHeight;
+    wrap.style.paddingTop = (h + 8) + "px";
+  }
+  fixPadding();
+  window.addEventListener("resize", fixPadding);
+});
+</script>
+
+<style id="agenda-search-filter-toggle-v1">
+/* Agenda: todo o painel de filtros e mensagens aparece somente ao ativar a busca. */
+#agFiltrosRapidosBusca { display: none !important; }
+#agFiltrosRapidosBusca.ag-busca-aberta { display: flex !important; }
+#agendaContagemV51,
+#agendaFiltrosAtivosV51 { display: none !important; }
+body.agenda-busca-aberta #agendaContagemV51,
+body.agenda-busca-aberta #agendaFiltrosAtivosV51 { display: block !important; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const busca = document.getElementById('buscaAgenda');
+  const filtros = document.getElementById('agFiltrosRapidosBusca');
+  if (!busca || !filtros) return;
+
+  const abrir = () => { filtros.classList.add('ag-busca-aberta'); document.body.classList.add('agenda-busca-aberta'); };
+  const fechar = (ev) => {
+    if (busca.contains(ev.target) || filtros.contains(ev.target)) return;
+    filtros.classList.remove('ag-busca-aberta');
+    document.body.classList.remove('agenda-busca-aberta');
+  };
+
+  busca.addEventListener('focus', abrir);
+  busca.addEventListener('click', abrir);
+  document.addEventListener('pointerdown', fechar);
+});
+</script>
+
+</body>
+</html>
+
+
+

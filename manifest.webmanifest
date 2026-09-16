@@ -1,0 +1,10 @@
+{
+  "name": "2letters",
+  "short_name": "2letters",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1222",
+  "theme_color": "#0f172a",
+  "icons": []
+}
